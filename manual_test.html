@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title>Test</title>
+</head>
+<body>
+  <script src="vendor/pixi.min.js"></script>
+  <script src="vendor/p2.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    var ents = new Barium.EntityManager();
+    var renderer = new Barium.Systems.Renderer2dPixi(ents);
+    var physics = new Barium.Systems.Physics2dP2(ents);
+    //var comp = new Barium.SimpleShape.SimpleShapeComponent({type: 'ellipse', centerX: 0, centerY: 0, radiusX: 50, radiusY: 100});
+    var transform = new Barium.Components.Transform2d();
+    var shape = new Barium.Geometry.Shape.Polygon({points: [-5,0, 5,0, 0,6.4]});
+    var graphics = new Barium.Components.SimpleShape(shape);
+
+    var body = new Barium.Components.RigidBody2d({type: Barium.Components.RigidBody2dType.dynamic});
+    var collider = new Barium.Components.Collider2d({shapes: [shape]});
+
+    var ent = ents.createEntity();
+    ent.add(transform);
+    ent.add(graphics);
+    ent.add(body);
+    ent.add(collider);
+
+    var updater = new Barium.GameUpdater();
+    /*updater.signals.fixedUpdateStarted.listen(function(dt) {
+      //physics.update(dt);
+    });*/
+    updater.signals.updateEnded.listen(function(dt) {
+      physics.update(dt, 1/200);
+      renderer.update(dt);
+    });
+
+    /*physics.update(0.1);
+    renderer.update(1);*/
+    updater.start();
+
+    document.body.appendChild(renderer.getView());
+  </script>
+</body>
+</html>

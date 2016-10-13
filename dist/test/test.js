@@ -1,0 +1,11 @@
+"use strict";
+var test_signal_1 = require('./test-signal');
+var test_bitmask_1 = require('./test-bitmask');
+var test_aspect_1 = require('./test-aspect');
+var test_entity_manager_1 = require('./test-entity-manager');
+var test_game_updater_1 = require('./test-game-updater');
+test_signal_1.testSignal();
+test_bitmask_1.testBitMask();
+test_aspect_1.testAspect();
+test_entity_manager_1.testEntityManager();
+test_game_updater_1.testGameUpdater();

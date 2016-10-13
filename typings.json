@@ -1,0 +1,10 @@
+{
+  "globalDevDependencies": {
+    "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
+    "p2": "https://github.com/schteppe/p2.js/blob/master/index.d.ts",
+    "pixi.js": "registry:dt/pixi.js#3.0.9+20160825215559"
+  },
+  "devDependencies": {
+    "index": "github:schteppe/p2.js/index.d.ts#9d56924"
+  }
+}
