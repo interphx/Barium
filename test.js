@@ -53,10 +53,10 @@
 
 	"use strict";
 	var test_signal_1 = __webpack_require__(2);
-	var test_bitmask_1 = __webpack_require__(19);
-	var test_aspect_1 = __webpack_require__(20);
-	var test_entity_manager_1 = __webpack_require__(21);
-	var test_game_updater_1 = __webpack_require__(22);
+	var test_bitmask_1 = __webpack_require__(21);
+	var test_aspect_1 = __webpack_require__(22);
+	var test_entity_manager_1 = __webpack_require__(23);
+	var test_game_updater_1 = __webpack_require__(24);
 	test_signal_1.testSignal();
 	test_bitmask_1.testBitMask();
 	test_aspect_1.testAspect();
@@ -153,6 +153,7 @@
 	    Components.Transform2d = Transform2dComponent.Transform2d;
 	    Components.Collider2d = Collider2dComponent.Collider2d;
 	    Components.RigidBody2d = RigidBody2dComponent.RigidBody2d;
+	    Components.RigidBody2dType = RigidBody2dComponent.BodyType;
 	})(Components || (Components = {}));
 	exports.Components = Components;
 	;
@@ -176,6 +177,8 @@
 	    })(Shape = Geometry.Shape || (Geometry.Shape = {}));
 	})(Geometry || (Geometry = {}));
 	exports.Geometry = Geometry;
+	var barium_game_updater_1 = __webpack_require__(20);
+	exports.GameUpdater = barium_game_updater_1.GameUpdater;
 
 
 /***/ },
@@ -354,10 +357,11 @@
 	        return !!this.componentMapping[componentClass.name][entityId.index];
 	    };
 	    EntityManager.prototype.getComponent = function (entityId, componentClass) {
-	        return this.componentMapping[componentClass.name][entityId.index] || null;
-	    };
-	    EntityManager.prototype.getComponentUnsafe = function (entityId, componentClass) {
-	        return this.componentMapping[componentClass.name][entityId.index];
+	        var result = this.componentMapping[componentClass.name][entityId.index];
+	        if (!result) {
+	            throw new Error('Component "' + componentClass.name + '" not found for entity ' + JSON.stringify(entityId));
+	        }
+	        return result;
 	    };
 	    EntityManager.prototype.addComponent = function (entityId, component) {
 	        var componentMapping = this.componentMapping;
@@ -895,9 +899,16 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var barium_decorators_1 = __webpack_require__(11);
+	(function (BodyType) {
+	    BodyType[BodyType["dynamic"] = 1] = "dynamic";
+	    BodyType[BodyType["kinematic"] = 2] = "kinematic";
+	    BodyType[BodyType["static"] = 3] = "static";
+	})(exports.BodyType || (exports.BodyType = {}));
+	var BodyType = exports.BodyType;
 	var RigidBody2d = (function () {
 	    function RigidBody2d(_a) {
-	        var _b = _a.mass, mass = _b === void 0 ? 1 : _b, _c = _a.fixedRotation, fixedRotation = _c === void 0 ? false : _c, _d = _a.allowSleep, allowSleep = _d === void 0 ? true : _d, _e = _a.collisionResponse, collisionResponse = _e === void 0 ? true : _e;
+	        var _b = _a === void 0 ? {} : _a, _c = _b.type, type = _c === void 0 ? BodyType.dynamic : _c, _d = _b.mass, mass = _d === void 0 ? 1 : _d, _e = _b.fixedRotation, fixedRotation = _e === void 0 ? false : _e, _f = _b.allowSleep, allowSleep = _f === void 0 ? true : _f, _g = _b.collisionResponse, collisionResponse = _g === void 0 ? true : _g;
+	        this.type = type;
 	        this.mass = mass;
 	        this.fixedRotation = fixedRotation;
 	        this.allowSleep = allowSleep;
@@ -943,8 +954,6 @@
 	        this.stage = new PIXI.Container();
 	        this.stage.position.x = (width / 2);
 	        this.stage.position.y = (height / 2);
-	        this.stage.scale.x = 1 / (this.meterToPixel);
-	        this.stage.scale.y = 1 / (this.meterToPixel);
 	    }
 	    Renderer2dPixi.prototype.setStagePos = function (x, y) {
 	        this.stage.position.x = (this.width / 2);
@@ -954,6 +963,11 @@
 	        return this.renderer.view;
 	    };
 	    Renderer2dPixi.prototype.copyTransform2d = function (transform, target) {
+	        target.position.x = transform.x * this.xAxis * this.meterToPixel;
+	        target.position.y = transform.y * this.yAxis * this.meterToPixel;
+	        target.scale.x = transform.scaleX;
+	        target.scale.y = transform.scaleY;
+	        target.rotation = transform.rotation;
 	    };
 	    Renderer2dPixi.prototype.validateSimpleShape = function (shape, transform) {
 	        if (!shape._graphics) {
@@ -1009,12 +1023,11 @@
 	        var renderables = this.entityManager.getEntitiesByAspect(this.renderableAspect);
 	        for (var i = 0, len = renderables.length; i < len; ++i) {
 	            var renderable = renderables[i];
-	            var shape = entityManager.getComponentUnsafe(renderable, simple_shape_1.SimpleShape);
-	            var transform = entityManager.getComponentUnsafe(renderable, transform2d_1.Transform2d);
+	            var shape = entityManager.getComponent(renderable, simple_shape_1.SimpleShape);
+	            var transform = entityManager.getComponent(renderable, transform2d_1.Transform2d);
 	            if (!this.tryValidateSimpleShape(shape, transform)) {
 	                this.copyTransform2d(transform, shape._graphics);
 	            }
-	            console.log(shape._graphics);
 	        }
 	        this.renderer.render(this.stage);
 	    };
@@ -1033,12 +1046,13 @@
 	var rigidbody2d_1 = __webpack_require__(16);
 	var collider2d_1 = __webpack_require__(15);
 	var shape_1 = __webpack_require__(13);
-	var p2 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"p2\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var p2 = __webpack_require__(19);
 	var Physics2dP2 = (function () {
 	    function Physics2dP2(entityManager, _a) {
-	        var _b = _a.gravity, gravity = _b === void 0 ? [0, -9.8] : _b;
+	        var _b = (_a === void 0 ? {} : _a).gravity, gravity = _b === void 0 ? [0, -9.8] : _b;
 	        this.bodyAspect = Aspect.all([transform2d_1.Transform2d, rigidbody2d_1.RigidBody2d, collider2d_1.Collider2d]);
 	        this.entityManager = entityManager;
+	        this.entityManager.addAspect(this.bodyAspect);
 	        this.world = new p2.World({ gravity: gravity });
 	    }
 	    Physics2dP2.prototype.toP2Shape = function (shape) {
@@ -1059,7 +1073,7 @@
 	                for (var i = 0, len = points.length; i < len; i += 2) {
 	                    p2points[i / 2] = [points[i], points[i + 1]];
 	                }
-	                params['points'] = p2points;
+	                params['vertices'] = p2points;
 	                return new p2.Convex(params);
 	            case shape_1.ShapeType.Capsule:
 	                params['length'] = shape.length;
@@ -1069,16 +1083,26 @@
 	                throw new Error('Not implemented');
 	        }
 	    };
-	    Physics2dP2.prototype.update = function (dt) {
+	    Physics2dP2.prototype.toP2Type = function (bodyType) {
+	        switch (bodyType) {
+	            case rigidbody2d_1.BodyType.dynamic: return p2.Body.DYNAMIC;
+	            case rigidbody2d_1.BodyType.kinematic: return p2.Body.KINEMATIC;
+	            case rigidbody2d_1.BodyType.static: return p2.Body.STATIC;
+	        }
+	        throw new Error('Not implemented');
+	    };
+	    Physics2dP2.prototype.update = function (dt, fixedDt) {
+	        if (fixedDt === void 0) { fixedDt = 1 / 60; }
 	        var entityManager = this.entityManager;
 	        var bodies = entityManager.getEntitiesByAspect(this.bodyAspect);
 	        for (var i = 0, len = bodies.length; i < len; ++i) {
 	            var item = bodies[i];
-	            var rigidBody = entityManager.getComponentUnsafe(item, rigidbody2d_1.RigidBody2d);
-	            var transform = entityManager.getComponentUnsafe(item, transform2d_1.Transform2d);
+	            var rigidBody = entityManager.getComponent(item, rigidbody2d_1.RigidBody2d);
+	            var transform = entityManager.getComponent(item, transform2d_1.Transform2d);
 	            if (!rigidBody.isValid()) {
-	                var collider = entityManager.getComponentUnsafe(item, collider2d_1.Collider2d);
+	                var collider = entityManager.getComponent(item, collider2d_1.Collider2d);
 	                var body = new p2.Body({
+	                    type: this.toP2Type(rigidBody.type),
 	                    mass: rigidBody.mass,
 	                    position: [transform.x, transform.y],
 	                    angle: transform.rotation,
@@ -1089,13 +1113,15 @@
 	                for (var i = 0, len = collider.shapes.length; i < len; ++i) {
 	                    body.addShape(this.toP2Shape(collider.shapes[i]));
 	                }
+	                this.world.addBody(body);
 	                rigidBody._p2body = body;
+	                rigidBody._valid = true;
 	            }
 	            transform.x = rigidBody._p2body.position[0];
 	            transform.y = rigidBody._p2body.position[1];
 	            transform.rotation = rigidBody._p2body.angle;
 	        }
-	        this.world.step(dt);
+	        this.world.step(fixedDt, dt);
 	    };
 	    return Physics2dP2;
 	}());
@@ -1104,6 +1130,79 @@
 
 /***/ },
 /* 19 */
+/***/ function(module, exports) {
+
+	module.exports = p2;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var Sig = __webpack_require__(8);
+	var Util = __webpack_require__(10);
+	var GameUpdater = (function () {
+	    function GameUpdater(fps, maxTimePerFrame) {
+	        if (fps === void 0) { fps = 60; }
+	        if (maxTimePerFrame === void 0) { maxTimePerFrame = 0.2; }
+	        this.lastTime = null;
+	        this.accumulator = 0;
+	        this.isRunning = false;
+	        this.requestedFrameId = null;
+	        this.signals = {
+	            updateStarted: new Sig.Signal(),
+	            updateEnded: new Sig.Signal(),
+	            fixedUpdateStarted: new Sig.Signal(),
+	            lagDetected: new Sig.Signal()
+	        };
+	        this.fps = fps;
+	        this.timePerFrame = 1 / this.fps;
+	        this.maxTimePerFrame = maxTimePerFrame;
+	        this.run = this.run.bind(this);
+	    }
+	    GameUpdater.prototype.update = function (sessionTime) {
+	        if (this.lastTime == null) {
+	            this.lastTime = sessionTime;
+	        }
+	        var delta = sessionTime - this.lastTime;
+	        if (delta > this.maxTimePerFrame) {
+	            this.signals.lagDetected.emit(delta);
+	            delta = this.maxTimePerFrame;
+	        }
+	        this.lastTime = sessionTime;
+	        this.accumulator += delta;
+	        this.signals.updateStarted.emit(delta);
+	        while (this.accumulator >= this.timePerFrame) {
+	            this.signals.fixedUpdateStarted.emit(this.timePerFrame);
+	            this.accumulator -= this.timePerFrame;
+	        }
+	        var alpha = this.accumulator / this.timePerFrame;
+	        this.signals.updateEnded.emit(delta, alpha);
+	    };
+	    GameUpdater.prototype.run = function (sessionTime) {
+	        if (!this.isRunning) {
+	            throw new Error('Invalid call to GameUpdater#run! GameUpdater is not running.');
+	        }
+	        this.update(sessionTime);
+	        this.requestedFrameId = Util.requestAnimationFrame(this.run);
+	    };
+	    GameUpdater.prototype.start = function () {
+	        if (this.isRunning)
+	            return;
+	        this.isRunning = true;
+	        this.requestedFrameId = Util.requestAnimationFrame(this.run);
+	    };
+	    GameUpdater.prototype.stop = function () {
+	        this.isRunning = false;
+	        Util.cancelAnimationFrame(this.requestedFrameId);
+	    };
+	    return GameUpdater;
+	}());
+	exports.GameUpdater = GameUpdater;
+
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1161,7 +1260,7 @@
 
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1250,7 +1349,7 @@
 
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1398,11 +1497,11 @@
 
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var barium_game_updater_1 = __webpack_require__(23);
+	var barium_game_updater_1 = __webpack_require__(20);
 	function testGameUpdater() {
 	    describe('GameUpdater', function () {
 	        it('should be created', function () {
@@ -1459,73 +1558,6 @@
 	}
 	exports.testGameUpdater = testGameUpdater;
 	;
-
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var Sig = __webpack_require__(8);
-	var Util = __webpack_require__(10);
-	var GameUpdater = (function () {
-	    function GameUpdater(fps, maxTimePerFrame) {
-	        if (fps === void 0) { fps = 60; }
-	        if (maxTimePerFrame === void 0) { maxTimePerFrame = 0.2; }
-	        this.lastTime = null;
-	        this.accumulator = 0;
-	        this.isRunning = false;
-	        this.requestedFrameId = null;
-	        this.signals = {
-	            updateStarted: new Sig.Signal(),
-	            updateEnded: new Sig.Signal(),
-	            fixedUpdateStarted: new Sig.Signal(),
-	            lagDetected: new Sig.Signal()
-	        };
-	        this.fps = fps;
-	        this.timePerFrame = 1 / this.fps;
-	        this.maxTimePerFrame = maxTimePerFrame;
-	        this.run = this.run.bind(this);
-	    }
-	    GameUpdater.prototype.update = function (sessionTime) {
-	        if (this.lastTime == null) {
-	            this.lastTime = sessionTime;
-	        }
-	        var delta = sessionTime - this.lastTime;
-	        if (delta > this.maxTimePerFrame) {
-	            this.signals.lagDetected.emit(delta);
-	            delta = this.maxTimePerFrame;
-	        }
-	        this.lastTime = sessionTime;
-	        this.accumulator += delta;
-	        this.signals.updateStarted.emit(delta);
-	        while (this.accumulator >= this.timePerFrame) {
-	            this.signals.fixedUpdateStarted.emit(this.timePerFrame);
-	            this.accumulator -= this.timePerFrame;
-	        }
-	        var alpha = this.accumulator / this.timePerFrame;
-	        this.signals.updateEnded.emit(delta, alpha);
-	    };
-	    GameUpdater.prototype.run = function (sessionTime) {
-	        if (!this.isRunning) {
-	            throw new Error('Invalid call to GameUpdater#run! GameUpdater is not running.');
-	        }
-	        this.update(sessionTime);
-	        this.requestedFrameId = Util.requestAnimationFrame(this.run);
-	    };
-	    GameUpdater.prototype.start = function () {
-	        if (this.isRunning)
-	            return;
-	        this.isRunning = true;
-	        this.requestedFrameId = Util.requestAnimationFrame(this.run);
-	    };
-	    GameUpdater.prototype.stop = function () {
-	        this.isRunning = false;
-	        Util.cancelAnimationFrame(this.requestedFrameId);
-	    };
-	    return GameUpdater;
-	}());
-	exports.GameUpdater = GameUpdater;
 
 
 /***/ }

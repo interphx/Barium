@@ -65,11 +65,11 @@ export class Physics2dP2 {
     for (var i = 0, len = bodies.length; i < len; ++i) {
       var item = bodies[i];
 
-      var rigidBody = entityManager.getComponentUnsafe(item, RigidBody2d);
-      var transform = entityManager.getComponentUnsafe(item, Transform2d);
+      var rigidBody = entityManager.getComponent(item, RigidBody2d);
+      var transform = entityManager.getComponent(item, Transform2d);
 
       if (!rigidBody.isValid()) {
-        var collider = entityManager.getComponentUnsafe(item, Collider2d);
+        var collider = entityManager.getComponent(item, Collider2d);
         var body = new p2.Body({
           type: this.toP2Type(rigidBody.type),
           mass: rigidBody.mass,

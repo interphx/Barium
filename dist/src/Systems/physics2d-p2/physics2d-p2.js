@@ -55,10 +55,10 @@ var Physics2dP2 = (function () {
         var bodies = entityManager.getEntitiesByAspect(this.bodyAspect);
         for (var i = 0, len = bodies.length; i < len; ++i) {
             var item = bodies[i];
-            var rigidBody = entityManager.getComponentUnsafe(item, rigidbody2d_1.RigidBody2d);
-            var transform = entityManager.getComponentUnsafe(item, transform2d_1.Transform2d);
+            var rigidBody = entityManager.getComponent(item, rigidbody2d_1.RigidBody2d);
+            var transform = entityManager.getComponent(item, transform2d_1.Transform2d);
             if (!rigidBody.isValid()) {
-                var collider = entityManager.getComponentUnsafe(item, collider2d_1.Collider2d);
+                var collider = entityManager.getComponent(item, collider2d_1.Collider2d);
                 var body = new p2.Body({
                     type: this.toP2Type(rigidBody.type),
                     mass: rigidBody.mass,

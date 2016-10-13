@@ -18,6 +18,17 @@
     var body = new Barium.Components.RigidBody2d({type: Barium.Components.RigidBody2dType.dynamic});
     var collider = new Barium.Components.Collider2d({shapes: [shape]});
 
+    var ground = ents.createEntity();
+    var groundTransform = new Barium.Components.Transform2d(0, -10);
+    var groundShape = new Barium.Geometry.Shape.Polygon({points: [-100,-5, 100,-5, 100,0, -100,0]});
+    var groundGraphics = new Barium.Components.SimpleShape(groundShape);
+    var groundCollider = new Barium.Components.Collider2d({shapes: [shape]});
+    var groundBody = new Barium.Components.RigidBody2d({type: Barium.Components.RigidBody2dType.static});
+    ground.add(groundTransform);
+    ground.add(groundCollider);
+    ground.add(groundBody);
+    ground.add(groundGraphics);
+
     var ent = ents.createEntity();
     ent.add(transform);
     ent.add(graphics);

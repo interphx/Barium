@@ -170,10 +170,11 @@ var EntityManager = (function () {
         return !!this.componentMapping[componentClass.name][entityId.index];
     };
     EntityManager.prototype.getComponent = function (entityId, componentClass) {
-        return this.componentMapping[componentClass.name][entityId.index] || null;
-    };
-    EntityManager.prototype.getComponentUnsafe = function (entityId, componentClass) {
-        return this.componentMapping[componentClass.name][entityId.index];
+        var result = this.componentMapping[componentClass.name][entityId.index];
+        if (!result) {
+            throw new Error('Component "' + componentClass.name + '" not found for entity ' + JSON.stringify(entityId));
+        }
+        return result;
     };
     EntityManager.prototype.addComponent = function (entityId, component) {
         var componentMapping = this.componentMapping;

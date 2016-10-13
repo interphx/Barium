@@ -87,8 +87,8 @@ var Renderer2dPixi = (function () {
         var renderables = this.entityManager.getEntitiesByAspect(this.renderableAspect);
         for (var i = 0, len = renderables.length; i < len; ++i) {
             var renderable = renderables[i];
-            var shape = entityManager.getComponentUnsafe(renderable, simple_shape_1.SimpleShape);
-            var transform = entityManager.getComponentUnsafe(renderable, transform2d_1.Transform2d);
+            var shape = entityManager.getComponent(renderable, simple_shape_1.SimpleShape);
+            var transform = entityManager.getComponent(renderable, transform2d_1.Transform2d);
             if (!this.tryValidateSimpleShape(shape, transform)) {
                 this.copyTransform2d(transform, shape._graphics);
             }

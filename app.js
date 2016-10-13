@@ -285,10 +285,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return !!this.componentMapping[componentClass.name][entityId.index];
 	    };
 	    EntityManager.prototype.getComponent = function (entityId, componentClass) {
-	        return this.componentMapping[componentClass.name][entityId.index] || null;
-	    };
-	    EntityManager.prototype.getComponentUnsafe = function (entityId, componentClass) {
-	        return this.componentMapping[componentClass.name][entityId.index];
+	        var result = this.componentMapping[componentClass.name][entityId.index];
+	        if (!result) {
+	            throw new Error('Component "' + componentClass.name + '" not found for entity ' + JSON.stringify(entityId));
+	        }
+	        return result;
 	    };
 	    EntityManager.prototype.addComponent = function (entityId, component) {
 	        var componentMapping = this.componentMapping;
@@ -950,8 +951,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var renderables = this.entityManager.getEntitiesByAspect(this.renderableAspect);
 	        for (var i = 0, len = renderables.length; i < len; ++i) {
 	            var renderable = renderables[i];
-	            var shape = entityManager.getComponentUnsafe(renderable, simple_shape_1.SimpleShape);
-	            var transform = entityManager.getComponentUnsafe(renderable, transform2d_1.Transform2d);
+	            var shape = entityManager.getComponent(renderable, simple_shape_1.SimpleShape);
+	            var transform = entityManager.getComponent(renderable, transform2d_1.Transform2d);
 	            if (!this.tryValidateSimpleShape(shape, transform)) {
 	                this.copyTransform2d(transform, shape._graphics);
 	            }
@@ -1024,10 +1025,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var bodies = entityManager.getEntitiesByAspect(this.bodyAspect);
 	        for (var i = 0, len = bodies.length; i < len; ++i) {
 	            var item = bodies[i];
-	            var rigidBody = entityManager.getComponentUnsafe(item, rigidbody2d_1.RigidBody2d);
-	            var transform = entityManager.getComponentUnsafe(item, transform2d_1.Transform2d);
+	            var rigidBody = entityManager.getComponent(item, rigidbody2d_1.RigidBody2d);
+	            var transform = entityManager.getComponent(item, transform2d_1.Transform2d);
 	            if (!rigidBody.isValid()) {
-	                var collider = entityManager.getComponentUnsafe(item, collider2d_1.Collider2d);
+	                var collider = entityManager.getComponent(item, collider2d_1.Collider2d);
 	                var body = new p2.Body({
 	                    type: this.toP2Type(rigidBody.type),
 	                    mass: rigidBody.mass,

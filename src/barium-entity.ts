@@ -214,12 +214,16 @@ export class EntityManager {
     return !!this.componentMapping[componentClass.name as string][entityId.index];
   }
 
-  getComponent<T>(entityId: EntityId, componentClass: ComponentClass<T>): T | null {
+  /*getComponent<T>(entityId: EntityId, componentClass: ComponentClass<T>): T | null {
     return (this.componentMapping[componentClass.name as string][entityId.index] as T) || null;
-  }
+  }*/
 
-  getComponentUnsafe<T>(entityId: EntityId, componentClass: ComponentClass<T>): T {
-    return (this.componentMapping[componentClass.name as string][entityId.index] as T);
+  getComponent<T>(entityId: EntityId, componentClass: ComponentClass<T>): T {
+    var result = (this.componentMapping[componentClass.name as string][entityId.index] as T);
+    if (!result) {
+      throw new Error('Component "' + componentClass.name + '" not found for entity ' + JSON.stringify(entityId));
+    }
+    return result;
   }
 
   addComponent<T>(entityId: EntityId, component: T) {

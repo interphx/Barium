@@ -134,12 +134,12 @@ export class Renderer2dPixi {
     var renderables = this.entityManager.getEntitiesByAspect(this.renderableAspect);
     for (var i = 0, len = renderables.length; i < len; ++i) {
       var renderable = renderables[i];
-      var shape = entityManager.getComponentUnsafe(renderable, SimpleShape);
-      var transform = entityManager.getComponentUnsafe(renderable, Transform2d);
+      var shape = entityManager.getComponent(renderable, SimpleShape);
+      var transform = entityManager.getComponent(renderable, Transform2d);
       if (!this.tryValidateSimpleShape(shape, transform)) {
         this.copyTransform2d(transform, shape._graphics);
       }
-      
+
     }
     this.renderer.render(this.stage);
   }
