@@ -11,11 +11,15 @@ export class Physics2dP2 {
   entityManager: EntityManager;
   world: p2.World;
   bodyAspect = Aspect.all([Transform2d, RigidBody2d, Collider2d])
+  yAxis: number;
 
   constructor(entityManager: EntityManager, {gravity = [0, -9.8]}: {gravity?: number[]} = {}) {
     this.entityManager = entityManager;
     this.entityManager.addAspect(this.bodyAspect);
     this.world = new p2.World({gravity: gravity});
+    // TODO: make configurable, add xAxis
+    this.yAxis = -1;
+
 
   }
 

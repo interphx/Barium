@@ -982,6 +982,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.entityManager = entityManager;
 	        this.entityManager.addAspect(this.bodyAspect);
 	        this.world = new p2.World({ gravity: gravity });
+	        this.yAxis = -1;
 	    }
 	    Physics2dP2.prototype.toP2Shape = function (shape) {
 	        var params = {
