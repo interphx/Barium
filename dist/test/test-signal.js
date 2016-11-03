@@ -1,6 +1,6 @@
 "use strict";
-var barium_1 = require('../src/barium');
-function testSignal() {
+var barium_1 = require('barium');
+function test() {
     describe('Signal', function () {
         it('should be created', function () {
             var sig0 = new barium_1.Signal.Signal();
@@ -55,5 +55,5 @@ function testSignal() {
         });
     });
 }
-exports.testSignal = testSignal;
+exports.test = test;
 ;

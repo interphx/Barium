@@ -1,9 +1,9 @@
-import * as ComponentTypesInfo from './barium-component-types-info';
-import {Component, ComponentClass} from './barium-component';
-import * as EntitySignature from './barium-entity-signature';
-import * as Sig from './barium-signal';
-import * as AspectModule from './barium-aspect';
-import {Aspect, AspectHash, signatureMatchesAspect} from './barium-aspect';
+import * as ComponentTypesInfo from './component-types-info';
+import {Component, ComponentClass} from './component';
+import * as EntitySignature from './entity-signature';
+import * as Sig from './signal';
+import * as AspectModule from './aspect';
+import {Aspect, AspectHash, signatureMatchesAspect} from './aspect';
 
 export type EntityId = {index: number, version: number};
 

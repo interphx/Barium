@@ -52,16 +52,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var test_signal_1 = __webpack_require__(2);
-	var test_bitmask_1 = __webpack_require__(21);
-	var test_aspect_1 = __webpack_require__(22);
-	var test_entity_manager_1 = __webpack_require__(23);
-	var test_game_updater_1 = __webpack_require__(24);
-	test_signal_1.testSignal();
-	test_bitmask_1.testBitMask();
-	test_aspect_1.testAspect();
-	test_entity_manager_1.testEntityManager();
-	test_game_updater_1.testGameUpdater();
+	var testSignal = __webpack_require__(2);
+	var testBitMask = __webpack_require__(12);
+	var testAspect = __webpack_require__(13);
+	var testEntityManager = __webpack_require__(15);
+	var testGameUpdater = __webpack_require__(16);
+	testSignal.test();
+	testBitMask.test();
+	testAspect.test();
+	testEntityManager.test();
+	testGameUpdater.test();
 
 
 /***/ },
@@ -70,7 +70,7 @@
 
 	"use strict";
 	var barium_1 = __webpack_require__(3);
-	function testSignal() {
+	function test() {
 	    describe('Signal', function () {
 	        it('should be created', function () {
 	            var sig0 = new barium_1.Signal.Signal();
@@ -125,7 +125,7 @@
 	        });
 	    });
 	}
-	exports.testSignal = testSignal;
+	exports.test = test;
 	;
 
 
@@ -134,51 +134,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var barium_entity_1 = __webpack_require__(4);
-	exports.EntityManager = barium_entity_1.EntityManager;
-	exports.Entity = barium_entity_1.Entity;
+	var entity_1 = __webpack_require__(4);
+	exports.EntityManager = entity_1.EntityManager;
+	exports.Entity = entity_1.Entity;
 	var Signal = __webpack_require__(8);
 	exports.Signal = Signal;
 	var Util = __webpack_require__(10);
 	exports.Util = Util;
-	var Decorators = __webpack_require__(11);
-	exports.Decorators = Decorators;
-	var SimpleShapeComponent = __webpack_require__(12);
-	var Transform2dComponent = __webpack_require__(14);
-	var Collider2dComponent = __webpack_require__(15);
-	var RigidBody2dComponent = __webpack_require__(16);
-	var Components;
-	(function (Components) {
-	    Components.SimpleShape = SimpleShapeComponent.SimpleShape;
-	    Components.Transform2d = Transform2dComponent.Transform2d;
-	    Components.Collider2d = Collider2dComponent.Collider2d;
-	    Components.RigidBody2d = RigidBody2dComponent.RigidBody2d;
-	    Components.RigidBody2dType = RigidBody2dComponent.BodyType;
-	})(Components || (Components = {}));
-	exports.Components = Components;
-	;
-	var Render2dPixiSystem = __webpack_require__(17);
-	var Physics2dP2System = __webpack_require__(18);
-	var Systems;
-	(function (Systems) {
-	    Systems.Renderer2dPixi = Render2dPixiSystem.Renderer2dPixi;
-	    Systems.Physics2dP2 = Physics2dP2System.Physics2dP2;
-	})(Systems || (Systems = {}));
-	exports.Systems = Systems;
-	;
-	var ShapeModule = __webpack_require__(13);
-	var Geometry;
-	(function (Geometry) {
-	    var Shape;
-	    (function (Shape) {
-	        Shape.Circle = ShapeModule.Circle;
-	        Shape.Polygon = ShapeModule.Polygon;
-	        Shape.Capsule = ShapeModule.Capsule;
-	    })(Shape = Geometry.Shape || (Geometry.Shape = {}));
-	})(Geometry || (Geometry = {}));
-	exports.Geometry = Geometry;
-	var barium_game_updater_1 = __webpack_require__(20);
-	exports.GameUpdater = barium_game_updater_1.GameUpdater;
+	var game_updater_1 = __webpack_require__(11);
+	exports.GameUpdater = game_updater_1.GameUpdater;
 
 
 /***/ },
@@ -189,7 +153,7 @@
 	var ComponentTypesInfo = __webpack_require__(5);
 	var EntitySignature = __webpack_require__(6);
 	var Sig = __webpack_require__(8);
-	var barium_aspect_1 = __webpack_require__(9);
+	var aspect_1 = __webpack_require__(9);
 	var Entity = (function () {
 	    function Entity(manager, id) {
 	        this.id = id;
@@ -238,7 +202,7 @@
 	        }
 	    }
 	    EntityManager.prototype.matchesAspect = function (entitySignature, aspect) {
-	        return barium_aspect_1.signatureMatchesAspect(entitySignature, aspect);
+	        return aspect_1.signatureMatchesAspect(entitySignature, aspect);
 	    };
 	    EntityManager.prototype.addEntityToAspects = function (entityId, signature) {
 	        var aspectMapping = this.aspectMapping;
@@ -675,471 +639,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ComponentTypesInfo = __webpack_require__(5);
-	var Util = __webpack_require__(10);
-	function ComponentClass(target) {
-	    if (!('name' in target)) {
-	        target['name'] = Util.parseFunctionName(target);
-	    }
-	    var index = ComponentTypesInfo.getNextComponentTypeId();
-	    var name = target['name'];
-	    ComponentTypesInfo.typeNameToIndex[name] = index;
-	    return target;
-	}
-	exports.ComponentClass = ComponentClass;
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var barium_decorators_1 = __webpack_require__(11);
-	var shape_1 = __webpack_require__(13);
-	var SimpleShape = (function () {
-	    function SimpleShape(shapeData, fillColor, strokeColor, strokeWidth) {
-	        if (fillColor === void 0) { fillColor = 0xFFFFFF; }
-	        if (strokeColor === void 0) { strokeColor = 0x000000; }
-	        if (strokeWidth === void 0) { strokeWidth = 2; }
-	        this._valid = false;
-	        this.shape = shapeData;
-	        this.fillColor = fillColor;
-	        this.strokeColor = strokeColor;
-	        this.strokeWidth = strokeWidth;
-	        this.invalidate();
-	    }
-	    SimpleShape.prototype.isValid = function () {
-	        return this._valid;
-	    };
-	    SimpleShape.prototype.invalidate = function () {
-	        this._valid = false;
-	    };
-	    SimpleShape = __decorate([
-	        barium_decorators_1.ComponentClass, 
-	        __metadata('design:paramtypes', [shape_1.Shape, Object, Object, Object])
-	    ], SimpleShape);
-	    return SimpleShape;
-	}());
-	exports.SimpleShape = SimpleShape;
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	(function (ShapeType) {
-	    ShapeType[ShapeType["Polygon"] = 1] = "Polygon";
-	    ShapeType[ShapeType["Circle"] = 2] = "Circle";
-	    ShapeType[ShapeType["Capsule"] = 3] = "Capsule";
-	    ShapeType[ShapeType["Ellipse"] = 4] = "Ellipse";
-	})(exports.ShapeType || (exports.ShapeType = {}));
-	var ShapeType = exports.ShapeType;
-	var Shape = (function () {
-	    function Shape(angle, position) {
-	        if (angle === void 0) { angle = 0; }
-	        if (position === void 0) { position = [0, 0]; }
-	        this.angle = angle;
-	        this.position = position.slice(0);
-	    }
-	    return Shape;
-	}());
-	exports.Shape = Shape;
-	Shape.prototype.angle = 0;
-	Shape.prototype.position = [0, 0];
-	var Polygon = (function (_super) {
-	    __extends(Polygon, _super);
-	    function Polygon(_a) {
-	        var points = _a.points, _b = _a.angle, angle = _b === void 0 ? 0 : _b, _c = _a.position, position = _c === void 0 ? [0, 0] : _c;
-	        _super.call(this, angle, position);
-	        this.points = points.slice(0);
-	    }
-	    Polygon.prototype.clone = function () {
-	        return new Polygon({ points: this.points, angle: this.angle, position: this.position });
-	    };
-	    return Polygon;
-	}(Shape));
-	exports.Polygon = Polygon;
-	Polygon.prototype.points = null;
-	Polygon.prototype.type = ShapeType.Polygon;
-	var Circle = (function (_super) {
-	    __extends(Circle, _super);
-	    function Circle(_a) {
-	        var radius = _a.radius, _b = _a.angle, angle = _b === void 0 ? 0 : _b, _c = _a.position, position = _c === void 0 ? [0, 0] : _c;
-	        _super.call(this, angle, position);
-	        this.type = ShapeType.Circle;
-	        this.radius = radius;
-	    }
-	    Circle.prototype.clone = function () {
-	        return new Circle({ radius: this.radius, angle: this.angle, position: this.position });
-	    };
-	    return Circle;
-	}(Shape));
-	exports.Circle = Circle;
-	Circle.prototype.type = ShapeType.Circle;
-	Circle.prototype.radius = 1;
-	var Capsule = (function (_super) {
-	    __extends(Capsule, _super);
-	    function Capsule(_a) {
-	        var length = _a.length, radius = _a.radius, _b = _a.angle, angle = _b === void 0 ? 0 : _b, _c = _a.position, position = _c === void 0 ? [0, 0] : _c;
-	        _super.call(this, angle, position);
-	        this.length = length;
-	        this.radius = radius;
-	    }
-	    Capsule.prototype.clone = function () {
-	        return new Capsule({
-	            length: this.length,
-	            radius: this.radius,
-	            angle: this.angle,
-	            position: this.position
-	        });
-	    };
-	    return Capsule;
-	}(Shape));
-	exports.Capsule = Capsule;
-	Capsule.prototype.type = ShapeType.Capsule;
-	Capsule.prototype.length = 4;
-	Capsule.prototype.radius = 1;
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var barium_decorators_1 = __webpack_require__(11);
-	var Transform2d = (function () {
-	    function Transform2d(x, y, z, rotation, scaleX, scaleY) {
-	        if (x === void 0) { x = 0; }
-	        if (y === void 0) { y = 0; }
-	        if (z === void 0) { z = 0; }
-	        if (rotation === void 0) { rotation = 0; }
-	        if (scaleX === void 0) { scaleX = 1; }
-	        if (scaleY === void 0) { scaleY = 1; }
-	        this.x = x;
-	        this.y = y;
-	        this.z = z;
-	        this.rotation = rotation;
-	        this.scaleX = scaleX;
-	        this.scaleY = scaleY;
-	    }
-	    Transform2d = __decorate([
-	        barium_decorators_1.ComponentClass, 
-	        __metadata('design:paramtypes', [Number, Number, Number, Number, Number, Number])
-	    ], Transform2d);
-	    return Transform2d;
-	}());
-	exports.Transform2d = Transform2d;
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var barium_decorators_1 = __webpack_require__(11);
-	var Collider2d = (function () {
-	    function Collider2d(_a) {
-	        var shapes = _a.shapes;
-	        this.shapes = shapes.slice(0);
-	    }
-	    Collider2d = __decorate([
-	        barium_decorators_1.ComponentClass, 
-	        __metadata('design:paramtypes', [Object])
-	    ], Collider2d);
-	    return Collider2d;
-	}());
-	exports.Collider2d = Collider2d;
-
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var barium_decorators_1 = __webpack_require__(11);
-	(function (BodyType) {
-	    BodyType[BodyType["dynamic"] = 1] = "dynamic";
-	    BodyType[BodyType["kinematic"] = 2] = "kinematic";
-	    BodyType[BodyType["static"] = 3] = "static";
-	})(exports.BodyType || (exports.BodyType = {}));
-	var BodyType = exports.BodyType;
-	var RigidBody2d = (function () {
-	    function RigidBody2d(_a) {
-	        var _b = _a === void 0 ? {} : _a, _c = _b.type, type = _c === void 0 ? BodyType.dynamic : _c, _d = _b.mass, mass = _d === void 0 ? 1 : _d, _e = _b.fixedRotation, fixedRotation = _e === void 0 ? false : _e, _f = _b.allowSleep, allowSleep = _f === void 0 ? true : _f, _g = _b.collisionResponse, collisionResponse = _g === void 0 ? true : _g;
-	        this.type = type;
-	        this.mass = mass;
-	        this.fixedRotation = fixedRotation;
-	        this.allowSleep = allowSleep;
-	        this.collisionResponse = collisionResponse;
-	        this.invalidate();
-	    }
-	    RigidBody2d.prototype.isValid = function () {
-	        return this._valid;
-	    };
-	    RigidBody2d.prototype.invalidate = function () {
-	        this._valid = false;
-	    };
-	    RigidBody2d = __decorate([
-	        barium_decorators_1.ComponentClass, 
-	        __metadata('design:paramtypes', [Object])
-	    ], RigidBody2d);
-	    return RigidBody2d;
-	}());
-	exports.RigidBody2d = RigidBody2d;
-
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var Aspect = __webpack_require__(9);
-	var simple_shape_1 = __webpack_require__(12);
-	var transform2d_1 = __webpack_require__(14);
-	var shape_1 = __webpack_require__(13);
-	var Renderer2dPixi = (function () {
-	    function Renderer2dPixi(entityManager, _a) {
-	        var _b = _a === void 0 ? {} : _a, _c = _b.meterToPixel, meterToPixel = _c === void 0 ? 10 : _c, _d = _b.yAxis, yAxis = _d === void 0 ? -1 : _d, _e = _b.xAxis, xAxis = _e === void 0 ? 1 : _e, _f = _b.width, width = _f === void 0 ? 800 : _f, _g = _b.height, height = _g === void 0 ? 600 : _g, _h = _b.backgroundColor, backgroundColor = _h === void 0 ? 0x000000 : _h;
-	        this.renderableAspect = Aspect.all([simple_shape_1.SimpleShape, transform2d_1.Transform2d]);
-	        this.entityManager = entityManager;
-	        this.entityManager.addAspect(this.renderableAspect);
-	        this.width = width;
-	        this.height = height;
-	        this.meterToPixel = meterToPixel;
-	        this.xAxis = xAxis;
-	        this.yAxis = yAxis;
-	        this.renderer = PIXI.autoDetectRenderer(width, height, { backgroundColor: backgroundColor });
-	        this.stage = new PIXI.Container();
-	        this.stage.position.x = (width / 2);
-	        this.stage.position.y = (height / 2);
-	    }
-	    Renderer2dPixi.prototype.setStagePos = function (x, y) {
-	        this.stage.position.x = (this.width / 2);
-	        this.stage.position.y = (this.height / 2);
-	    };
-	    Renderer2dPixi.prototype.getView = function () {
-	        return this.renderer.view;
-	    };
-	    Renderer2dPixi.prototype.copyTransform2d = function (transform, target) {
-	        target.position.x = transform.x * this.xAxis * this.meterToPixel;
-	        target.position.y = transform.y * this.yAxis * this.meterToPixel;
-	        target.scale.x = transform.scaleX;
-	        target.scale.y = transform.scaleY;
-	        target.rotation = transform.rotation;
-	    };
-	    Renderer2dPixi.prototype.validateSimpleShape = function (shape, transform) {
-	        if (!shape._graphics) {
-	            shape._graphics = new PIXI.Graphics();
-	        }
-	        var graphics = shape._graphics;
-	        var shapeData = shape.shape;
-	        var xAxis = this.xAxis;
-	        var yAxis = this.yAxis;
-	        var meterToPixel = this.meterToPixel;
-	        graphics.lineColor = shape.strokeColor;
-	        graphics.lineWidth = shape.strokeWidth;
-	        switch (shapeData.type) {
-	            case shape_1.ShapeType.Circle:
-	                var radius = shapeData.radius;
-	                graphics.beginFill(shape.fillColor);
-	                graphics.drawEllipse(shapeData.position[0] * xAxis * meterToPixel, shapeData.position[1] * yAxis * meterToPixel, radius * meterToPixel, radius * meterToPixel);
-	                graphics.endFill();
-	                break;
-	            case shape_1.ShapeType.Polygon:
-	                graphics.beginFill(shape.fillColor);
-	                var points = shapeData.points.slice(0);
-	                for (var i = 0, len = points.length; i < len; ++i) {
-	                    if (i % 2 === 0) {
-	                        points[i] *= meterToPixel * xAxis;
-	                    }
-	                    else {
-	                        points[i] *= meterToPixel * yAxis;
-	                    }
-	                }
-	                graphics.drawPolygon(points);
-	                graphics.endFill();
-	                break;
-	            default:
-	                throw new Error('Not implemented');
-	        }
-	        shape._valid = true;
-	    };
-	    Renderer2dPixi.prototype.tryValidateSimpleShape = function (component, transform) {
-	        var result = false;
-	        if (!component.isValid()) {
-	            this.validateSimpleShape(component, transform);
-	            result = true;
-	        }
-	        if (!component._graphics.parent) {
-	            this.stage.addChild(component._graphics);
-	            result = true;
-	        }
-	        return result;
-	    };
-	    Renderer2dPixi.prototype.update = function (dt) {
-	        var entityManager = this.entityManager;
-	        var renderables = this.entityManager.getEntitiesByAspect(this.renderableAspect);
-	        for (var i = 0, len = renderables.length; i < len; ++i) {
-	            var renderable = renderables[i];
-	            var shape = entityManager.getComponent(renderable, simple_shape_1.SimpleShape);
-	            var transform = entityManager.getComponent(renderable, transform2d_1.Transform2d);
-	            if (!this.tryValidateSimpleShape(shape, transform)) {
-	                this.copyTransform2d(transform, shape._graphics);
-	            }
-	        }
-	        this.renderer.render(this.stage);
-	    };
-	    return Renderer2dPixi;
-	}());
-	exports.Renderer2dPixi = Renderer2dPixi;
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var Aspect = __webpack_require__(9);
-	var transform2d_1 = __webpack_require__(14);
-	var rigidbody2d_1 = __webpack_require__(16);
-	var collider2d_1 = __webpack_require__(15);
-	var shape_1 = __webpack_require__(13);
-	var p2 = __webpack_require__(19);
-	var Physics2dP2 = (function () {
-	    function Physics2dP2(entityManager, _a) {
-	        var _b = (_a === void 0 ? {} : _a).gravity, gravity = _b === void 0 ? [0, -9.8] : _b;
-	        this.bodyAspect = Aspect.all([transform2d_1.Transform2d, rigidbody2d_1.RigidBody2d, collider2d_1.Collider2d]);
-	        this.entityManager = entityManager;
-	        this.entityManager.addAspect(this.bodyAspect);
-	        this.world = new p2.World({ gravity: gravity });
-	        this.yAxis = -1;
-	    }
-	    Physics2dP2.prototype.toP2Shape = function (shape) {
-	        var params = {
-	            angle: shape.angle,
-	            position: shape.position
-	        };
-	        switch (shape.type) {
-	            case shape_1.ShapeType.Circle:
-	                params['radius'] = shape.radius;
-	                return new p2.Circle(params);
-	            case shape_1.ShapeType.Polygon:
-	                var points = shape.points;
-	                if (points.length % 2 !== 0) {
-	                    throw new Error('Polygon points musts be an array of coordinates specified in pairs, length must be even');
-	                }
-	                var p2points = new Array(points.length / 2);
-	                for (var i = 0, len = points.length; i < len; i += 2) {
-	                    p2points[i / 2] = [points[i], points[i + 1]];
-	                }
-	                params['vertices'] = p2points;
-	                return new p2.Convex(params);
-	            case shape_1.ShapeType.Capsule:
-	                params['length'] = shape.length;
-	                params['radius'] = shape.radius;
-	                return new p2.Capsule(params);
-	            default:
-	                throw new Error('Not implemented');
-	        }
-	    };
-	    Physics2dP2.prototype.toP2Type = function (bodyType) {
-	        switch (bodyType) {
-	            case rigidbody2d_1.BodyType.dynamic: return p2.Body.DYNAMIC;
-	            case rigidbody2d_1.BodyType.kinematic: return p2.Body.KINEMATIC;
-	            case rigidbody2d_1.BodyType.static: return p2.Body.STATIC;
-	        }
-	        throw new Error('Not implemented');
-	    };
-	    Physics2dP2.prototype.update = function (dt, fixedDt) {
-	        if (fixedDt === void 0) { fixedDt = 1 / 60; }
-	        var entityManager = this.entityManager;
-	        var bodies = entityManager.getEntitiesByAspect(this.bodyAspect);
-	        for (var i = 0, len = bodies.length; i < len; ++i) {
-	            var item = bodies[i];
-	            var rigidBody = entityManager.getComponent(item, rigidbody2d_1.RigidBody2d);
-	            var transform = entityManager.getComponent(item, transform2d_1.Transform2d);
-	            if (!rigidBody.isValid()) {
-	                var collider = entityManager.getComponent(item, collider2d_1.Collider2d);
-	                var body = new p2.Body({
-	                    type: this.toP2Type(rigidBody.type),
-	                    mass: rigidBody.mass,
-	                    position: [transform.x, transform.y],
-	                    angle: transform.rotation,
-	                    fixedRotation: rigidBody.fixedRotation,
-	                    allowSleep: rigidBody.allowSleep,
-	                    collisionResponse: rigidBody.collisionResponse
-	                });
-	                for (var i = 0, len = collider.shapes.length; i < len; ++i) {
-	                    body.addShape(this.toP2Shape(collider.shapes[i]));
-	                }
-	                this.world.addBody(body);
-	                rigidBody._p2body = body;
-	                rigidBody._valid = true;
-	            }
-	            transform.x = rigidBody._p2body.position[0];
-	            transform.y = rigidBody._p2body.position[1];
-	            transform.rotation = rigidBody._p2body.angle;
-	        }
-	        this.world.step(fixedDt, dt);
-	    };
-	    return Physics2dP2;
-	}());
-	exports.Physics2dP2 = Physics2dP2;
-
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	module.exports = p2;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
 	var Sig = __webpack_require__(8);
 	var Util = __webpack_require__(10);
 	var GameUpdater = (function () {
@@ -1203,12 +702,12 @@
 
 
 /***/ },
-/* 21 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var BitMask = __webpack_require__(7);
-	function testBitMask() {
+	function test() {
 	    describe('BitMask', function () {
 	        it('should be created', function () {
 	            var bm = BitMask.create(300);
@@ -1256,12 +755,12 @@
 	        });
 	    });
 	}
-	exports.testBitMask = testBitMask;
+	exports.test = test;
 	;
 
 
 /***/ },
-/* 22 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1276,12 +775,12 @@
 	};
 	var Aspect = __webpack_require__(9);
 	var EntitySignature = __webpack_require__(6);
-	var Decorators = __webpack_require__(11);
+	var component_1 = __webpack_require__(14);
 	var TestComp0 = (function () {
 	    function TestComp0() {
 	    }
 	    TestComp0 = __decorate([
-	        Decorators.ComponentClass, 
+	        component_1.ComponentClass, 
 	        __metadata('design:paramtypes', [])
 	    ], TestComp0);
 	    return TestComp0;
@@ -1290,7 +789,7 @@
 	    function TestComp1() {
 	    }
 	    TestComp1 = __decorate([
-	        Decorators.ComponentClass, 
+	        component_1.ComponentClass, 
 	        __metadata('design:paramtypes', [])
 	    ], TestComp1);
 	    return TestComp1;
@@ -1299,12 +798,12 @@
 	    function TestComp2() {
 	    }
 	    TestComp2 = __decorate([
-	        Decorators.ComponentClass, 
+	        component_1.ComponentClass, 
 	        __metadata('design:paramtypes', [])
 	    ], TestComp2);
 	    return TestComp2;
 	}());
-	function testAspect() {
+	function test() {
 	    describe('Aspect', function () {
 	        it('should be created', function () {
 	            var asp = Aspect.all([TestComp0, TestComp1, TestComp2]);
@@ -1345,12 +844,39 @@
 	        });
 	    });
 	}
-	exports.testAspect = testAspect;
+	exports.test = test;
 	;
 
 
 /***/ },
-/* 23 */
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var ComponentTypesInfo = __webpack_require__(5);
+	var Util = __webpack_require__(10);
+	;
+	function ComponentClass(target) {
+	    if (!('name' in target)) {
+	        var parsedName = Util.parseFunctionName(target);
+	        if (typeof parsedName !== 'string' || parsedName.trim() === '') {
+	            throw new Error("Unable to parse component class name; please specify\n        static \"name\" property or use non-anonymous function");
+	        }
+	        else {
+	            console.log("Name for component class " + parsedName + " was parsed from\n        function definition");
+	        }
+	        target['name'] = parsedName;
+	    }
+	    var index = ComponentTypesInfo.getNextComponentTypeId();
+	    var name = target['name'];
+	    ComponentTypesInfo.typeNameToIndex[name] = index;
+	    return target;
+	}
+	exports.ComponentClass = ComponentClass;
+
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1363,15 +889,15 @@
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var barium_entity_1 = __webpack_require__(4);
-	var Decorators = __webpack_require__(11);
+	var entity_1 = __webpack_require__(4);
+	var component_1 = __webpack_require__(14);
 	var Aspect = __webpack_require__(9);
 	var TestComponent = (function () {
 	    function TestComponent(foo) {
 	        this.foo = foo;
 	    }
 	    TestComponent = __decorate([
-	        Decorators.ComponentClass, 
+	        component_1.ComponentClass, 
 	        __metadata('design:paramtypes', [String])
 	    ], TestComponent);
 	    return TestComponent;
@@ -1381,7 +907,7 @@
 	    function TestFlagComponent0() {
 	    }
 	    TestFlagComponent0 = __decorate([
-	        Decorators.ComponentClass, 
+	        component_1.ComponentClass, 
 	        __metadata('design:paramtypes', [])
 	    ], TestFlagComponent0);
 	    return TestFlagComponent0;
@@ -1391,20 +917,20 @@
 	    function TestFlagComponent1() {
 	    }
 	    TestFlagComponent1 = __decorate([
-	        Decorators.ComponentClass, 
+	        component_1.ComponentClass, 
 	        __metadata('design:paramtypes', [])
 	    ], TestFlagComponent1);
 	    return TestFlagComponent1;
 	}());
 	;
-	function testEntityManager() {
+	function test() {
 	    describe('EntityManager', function () {
 	        it('should be created', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            expect(em).toBeDefined();
 	        });
 	        it('should create entities', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id_a = em.create();
 	            var id_b = em.create();
 	            var ent_c = em.createEntity();
@@ -1413,12 +939,12 @@
 	            expect(ent_c).toBeDefined();
 	        });
 	        it('should consider created entities valid', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id = em.create();
 	            expect(em.isValidId(id)).toBeTruthy();
 	        });
 	        it('should remove entities', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id_a = em.create();
 	            var id_b = em.create();
 	            var ent_c = em.createEntity();
@@ -1430,7 +956,7 @@
 	            expect(em.isValidId(ent_c.id)).toBeFalsy();
 	        });
 	        it('should add components to entity', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id0 = em.create(), id1 = em.create();
 	            expect(function () {
 	                em.addComponent(id0, new TestComponent('foo'));
@@ -1442,7 +968,7 @@
 	            expect(comp1 ? comp1.foo : null).toEqual('bar');
 	        });
 	        it('should remove components from entity', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id0 = em.create(), id1 = em.create();
 	            em.addComponent(id0, new TestComponent('foo'));
 	            em.addComponent(id1, new TestComponent('bar'));
@@ -1454,7 +980,7 @@
 	            expect(em.hasComponent(id1, TestComponent)).toBeFalsy();
 	        });
 	        it('should check if entity has component', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id0 = em.create(), id1 = em.create();
 	            em.addComponent(id0, new TestComponent('foo'));
 	            em.addComponent(id1, new TestComponent('bar'));
@@ -1462,20 +988,20 @@
 	            expect(em.hasComponent(id1, TestComponent)).toBeTruthy();
 	        });
 	        it('should add aspects', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var id0 = em.create(), id1 = em.create();
 	            expect(function () {
 	                em.addAspect(Aspect.all([TestComponent]));
 	            }).not.toThrow();
 	        });
 	        it('should remove aspects', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var aspect = Aspect.all([TestComponent, TestFlagComponent0]);
 	            em.addAspect(aspect);
 	            expect(em.removeAspect(aspect)).toBeTruthy();
 	        });
 	        it('should return list of entities matching aspect', function () {
-	            var em = new barium_entity_1.EntityManager();
+	            var em = new entity_1.EntityManager();
 	            var aspect0 = Aspect.all([TestComponent, TestFlagComponent0]);
 	            var aspect1 = Aspect.all([TestComponent, TestFlagComponent1]);
 	            em.addAspect(aspect0);
@@ -1493,24 +1019,24 @@
 	        });
 	    });
 	}
-	exports.testEntityManager = testEntityManager;
+	exports.test = test;
 	;
 
 
 /***/ },
-/* 24 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var barium_game_updater_1 = __webpack_require__(20);
-	function testGameUpdater() {
+	var game_updater_1 = __webpack_require__(11);
+	function test() {
 	    describe('GameUpdater', function () {
 	        it('should be created', function () {
-	            var gu = new barium_game_updater_1.GameUpdater();
+	            var gu = new game_updater_1.GameUpdater();
 	            expect(gu).toBeDefined();
 	        });
 	        it('should start and stop', function (done) {
-	            var gu = new barium_game_updater_1.GameUpdater();
+	            var gu = new game_updater_1.GameUpdater();
 	            var spy = jasmine.createSpy('should not be called after GameUpdater#stop');
 	            gu.start();
 	            setTimeout(function () {
@@ -1523,7 +1049,7 @@
 	            }, 500);
 	        });
 	        it('should call updateStarted', function (done) {
-	            var gu = new barium_game_updater_1.GameUpdater();
+	            var gu = new game_updater_1.GameUpdater();
 	            var spy = jasmine.createSpy('updateStarted');
 	            gu.signals.updateStarted.listen(spy);
 	            gu.start();
@@ -1534,7 +1060,7 @@
 	            }, 500);
 	        });
 	        it('should call updateEnded', function (done) {
-	            var gu = new barium_game_updater_1.GameUpdater();
+	            var gu = new game_updater_1.GameUpdater();
 	            var spy = jasmine.createSpy('updateEnded');
 	            gu.signals.updateEnded.listen(spy);
 	            gu.start();
@@ -1545,7 +1071,7 @@
 	            }, 500);
 	        });
 	        it('should call fixedUpdateStarted', function (done) {
-	            var gu = new barium_game_updater_1.GameUpdater();
+	            var gu = new game_updater_1.GameUpdater();
 	            var spy = jasmine.createSpy('fixedUpdateStarted');
 	            gu.signals.fixedUpdateStarted.listen(spy);
 	            gu.start();
@@ -1557,7 +1083,7 @@
 	        });
 	    });
 	}
-	exports.testGameUpdater = testGameUpdater;
+	exports.test = test;
 	;
 
 

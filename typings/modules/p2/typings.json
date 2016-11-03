@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/schteppe/p2.js/9d56924/index.d.ts",
-    "raw": "github:schteppe/p2.js/index.d.ts#9d56924",
-    "typings": "https://raw.githubusercontent.com/schteppe/p2.js/9d56924/index.d.ts"
-  }
-}

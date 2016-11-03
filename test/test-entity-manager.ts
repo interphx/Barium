@@ -1,21 +1,22 @@
-import {EntityManager} from 'barium-entity';
-import * as Decorators from 'barium-decorators';
-import * as Aspect from 'barium-aspect';
+import {EntityManager} from 'entity';
+import {ComponentClass} from 'component';
+import * as Aspect from 'aspect';
 
-@Decorators.ComponentClass
+// TODO: Add test for 64+ component classes
+@ComponentClass
 class TestComponent {
   constructor(public foo: string) {}
 };
-@Decorators.ComponentClass
+@ComponentClass
 class TestFlagComponent0 {
   constructor() {}
 };
-@Decorators.ComponentClass
+@ComponentClass
 class TestFlagComponent1 {
   constructor() {}
 };
 
-export function testEntityManager(): void {
+export function test(): void {
   describe('EntityManager', () => {
     it('should be created', () => {
       var em = new EntityManager();

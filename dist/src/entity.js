@@ -1,8 +1,8 @@
 "use strict";
-var ComponentTypesInfo = require('./barium-component-types-info');
-var EntitySignature = require('./barium-entity-signature');
-var Sig = require('./barium-signal');
-var barium_aspect_1 = require('./barium-aspect');
+var ComponentTypesInfo = require('./component-types-info');
+var EntitySignature = require('./entity-signature');
+var Sig = require('./signal');
+var aspect_1 = require('./aspect');
 var Entity = (function () {
     function Entity(manager, id) {
         this.id = id;
@@ -51,7 +51,7 @@ var EntityManager = (function () {
         }
     }
     EntityManager.prototype.matchesAspect = function (entitySignature, aspect) {
-        return barium_aspect_1.signatureMatchesAspect(entitySignature, aspect);
+        return aspect_1.signatureMatchesAspect(entitySignature, aspect);
     };
     EntityManager.prototype.addEntityToAspects = function (entityId, signature) {
         var aspectMapping = this.aspectMapping;

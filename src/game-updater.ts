@@ -1,5 +1,5 @@
-import * as Sig from './barium-signal';
-import * as Util from './barium-util';
+import * as Sig from './signal';
+import * as Util from './util';
 
 export class GameUpdater {
   private fps: number;

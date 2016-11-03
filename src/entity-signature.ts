@@ -1,6 +1,6 @@
-import * as ComponentTypesInfo from './barium-component-types-info';
-import {ComponentClass} from './barium-component';
-import * as BitMask from './barium-bitmask';
+import * as ComponentTypesInfo from './component-types-info';
+import {ComponentClass} from './component';
+import * as BitMask from './bitmask';
 
 export type EntitySignature = BitMask.BitMaskType;
 export function create() {

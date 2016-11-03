@@ -1,6 +1,6 @@
-import {GameUpdater} from '../src/barium-game-updater';
+import {GameUpdater} from 'game-updater';
 
-export function testGameUpdater(): void {
+export function test(): void {
   describe('GameUpdater', () => {
     it('should be created', () => {
       var gu = new GameUpdater();

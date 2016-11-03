@@ -1,6 +1,6 @@
 "use strict";
-var BitMask = require('barium-bitmask');
-function testBitMask() {
+var BitMask = require('bitmask');
+function test() {
     describe('BitMask', function () {
         it('should be created', function () {
             var bm = BitMask.create(300);
@@ -48,5 +48,5 @@ function testBitMask() {
         });
     });
 }
-exports.testBitMask = testBitMask;
+exports.test = test;
 ;

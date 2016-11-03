@@ -1,13 +1,13 @@
 "use strict";
-var barium_game_updater_1 = require('../src/barium-game-updater');
-function testGameUpdater() {
+var game_updater_1 = require('game-updater');
+function test() {
     describe('GameUpdater', function () {
         it('should be created', function () {
-            var gu = new barium_game_updater_1.GameUpdater();
+            var gu = new game_updater_1.GameUpdater();
             expect(gu).toBeDefined();
         });
         it('should start and stop', function (done) {
-            var gu = new barium_game_updater_1.GameUpdater();
+            var gu = new game_updater_1.GameUpdater();
             var spy = jasmine.createSpy('should not be called after GameUpdater#stop');
             gu.start();
             setTimeout(function () {
@@ -20,7 +20,7 @@ function testGameUpdater() {
             }, 500);
         });
         it('should call updateStarted', function (done) {
-            var gu = new barium_game_updater_1.GameUpdater();
+            var gu = new game_updater_1.GameUpdater();
             var spy = jasmine.createSpy('updateStarted');
             gu.signals.updateStarted.listen(spy);
             gu.start();
@@ -31,7 +31,7 @@ function testGameUpdater() {
             }, 500);
         });
         it('should call updateEnded', function (done) {
-            var gu = new barium_game_updater_1.GameUpdater();
+            var gu = new game_updater_1.GameUpdater();
             var spy = jasmine.createSpy('updateEnded');
             gu.signals.updateEnded.listen(spy);
             gu.start();
@@ -42,7 +42,7 @@ function testGameUpdater() {
             }, 500);
         });
         it('should call fixedUpdateStarted', function (done) {
-            var gu = new barium_game_updater_1.GameUpdater();
+            var gu = new game_updater_1.GameUpdater();
             var spy = jasmine.createSpy('fixedUpdateStarted');
             gu.signals.fixedUpdateStarted.listen(spy);
             gu.start();
@@ -54,5 +54,5 @@ function testGameUpdater() {
         });
     });
 }
-exports.testGameUpdater = testGameUpdater;
+exports.test = test;
 ;

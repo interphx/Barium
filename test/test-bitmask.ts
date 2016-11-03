@@ -1,6 +1,6 @@
-import * as BitMask from 'barium-bitmask';
+import * as BitMask from 'bitmask';
 
-export function testBitMask(): void {
+export function test(): void {
   describe('BitMask', () => {
     it('should be created', () => {
       var bm = BitMask.create(300);

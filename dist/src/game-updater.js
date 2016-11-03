@@ -1,6 +1,6 @@
 "use strict";
-var Sig = require('./barium-signal');
-var Util = require('./barium-util');
+var Sig = require('./signal');
+var Util = require('./util');
 var GameUpdater = (function () {
     function GameUpdater(fps, maxTimePerFrame) {
         if (fps === void 0) { fps = 60; }

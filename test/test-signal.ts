@@ -1,5 +1,6 @@
-import {Signal as Sig} from '../src/barium';
-export function testSignal(): void {
+import {Signal as Sig} from 'barium';
+
+export function test(): void {
   describe('Signal', () => {
     it('should be created', () => {
       var sig0 = new Sig.Signal() as Sig.Signal0;

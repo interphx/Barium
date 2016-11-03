@@ -1,11 +1,13 @@
-import {testSignal} from './test-signal';
-import {testBitMask} from './test-bitmask';
-import {testAspect} from './test-aspect';
-import {testEntityManager} from './test-entity-manager';
-import {testGameUpdater} from './test-game-updater';
+import * as testSignal from './test-signal';
+import * as testBitMask from './test-bitmask';
+import * as testAspect from './test-aspect';
+import * as testEntityManager from './test-entity-manager';
+import * as testGameUpdater from './test-game-updater';
 
-testSignal();
-testBitMask();
-testAspect();
-testEntityManager();
-testGameUpdater();
+// TODO: Decouple tests from the main library, make it an external dependency
+
+testSignal.test();
+testBitMask.test();
+testAspect.test();
+testEntityManager.test();
+testGameUpdater.test();

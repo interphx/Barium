@@ -1,7 +1,7 @@
-import * as ComponentTypesInfo from './barium-component-types-info';
-import {ComponentClass} from './barium-component';
-import * as EntitySignature from './barium-entity-signature';
-import * as BitMask from './barium-bitmask';
+import * as ComponentTypesInfo from './component-types-info';
+import {ComponentClass} from './component';
+import * as EntitySignature from './entity-signature';
+import * as BitMask from './bitmask';
 
 export type Aspect = BitMask.BitMaskType;
 export type AspectHash = string;

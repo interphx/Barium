@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var Aspect = require('barium-aspect');
-var EntitySignature = require('barium-entity-signature');
-var Decorators = require('barium-decorators');
+var Aspect = require('aspect');
+var EntitySignature = require('entity-signature');
+var component_1 = require('component');
 var TestComp0 = (function () {
     function TestComp0() {
     }
     TestComp0 = __decorate([
-        Decorators.ComponentClass, 
+        component_1.ComponentClass, 
         __metadata('design:paramtypes', [])
     ], TestComp0);
     return TestComp0;
@@ -24,7 +24,7 @@ var TestComp1 = (function () {
     function TestComp1() {
     }
     TestComp1 = __decorate([
-        Decorators.ComponentClass, 
+        component_1.ComponentClass, 
         __metadata('design:paramtypes', [])
     ], TestComp1);
     return TestComp1;
@@ -33,12 +33,12 @@ var TestComp2 = (function () {
     function TestComp2() {
     }
     TestComp2 = __decorate([
-        Decorators.ComponentClass, 
+        component_1.ComponentClass, 
         __metadata('design:paramtypes', [])
     ], TestComp2);
     return TestComp2;
 }());
-function testAspect() {
+function test() {
     describe('Aspect', function () {
         it('should be created', function () {
             var asp = Aspect.all([TestComp0, TestComp1, TestComp2]);
@@ -79,5 +79,5 @@ function testAspect() {
         });
     });
 }
-exports.testAspect = testAspect;
+exports.test = test;
 ;

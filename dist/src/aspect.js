@@ -1,6 +1,6 @@
 "use strict";
-var ComponentTypesInfo = require('./barium-component-types-info');
-var BitMask = require('./barium-bitmask');
+var ComponentTypesInfo = require('./component-types-info');
+var BitMask = require('./bitmask');
 function all(componentClasses) {
     var aspect = BitMask.create(ComponentTypesInfo.totalComponentTypes);
     for (var _i = 0, componentClasses_1 = componentClasses; _i < componentClasses_1.length; _i++) {

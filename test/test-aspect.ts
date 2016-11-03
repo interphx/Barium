@@ -1,17 +1,17 @@
-import * as Aspect from 'barium-aspect';
-import * as EntitySignature from 'barium-entity-signature';
-import * as Decorators from 'barium-decorators';
+import * as Aspect from 'aspect';
+import * as EntitySignature from 'entity-signature';
+import {ComponentClass} from 'component';
 
-@Decorators.ComponentClass
+@ComponentClass
 class TestComp0 {}
 
-@Decorators.ComponentClass
+@ComponentClass
 class TestComp1 {}
 
-@Decorators.ComponentClass
+@ComponentClass
 class TestComp2 {}
 
-export function testAspect(): void {
+export function test(): void {
   describe('Aspect', () => {
     it('should be created', () => {
       var asp = Aspect.all([TestComp0, TestComp1, TestComp2]);
